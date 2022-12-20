@@ -16,12 +16,14 @@ if (!class_exists('cb_example_cpt')) {
 
     function __construct()
     {
+      register_activation_hook(__FILE__, array($this, 'cb_create_role'));
+      register_deactivation_hook(__FILE__, array($this, 'cb_remove_role'));
       add_action('init', array($this, 'cb_register_example_post_type'));
     }
 
     /**
-     * We're creating a new post type called "Example CPT" 
-     * and registering it with WordPress
+     * Create a new post type called "Example CPT" 
+     * and register it with WordPress
      */
     public function cb_register_example_post_type()
     {
@@ -50,6 +52,42 @@ if (!class_exists('cb_example_cpt')) {
       );
 
       register_post_type('example-cpt', $example_post_type_args);
+    }
+
+    /**
+     * Creates new role called "Example CPT" with the ability to create, 
+     * edit, and delete Example Custom Posts
+     */
+    public function cb_create_role()
+    {
+      $capabilities = array(
+        'edit_post' => true,
+        'read_post' => true,
+        'delete_post' => true,
+        'edit_posts' => true,
+        'edit_others_posts' => true,
+        'publish_posts' => true,
+        'read_private_posts' => true,
+        'read' => true,
+        'delete_posts' => true,
+        'delete_private_posts' => true,
+        'delete_published_posts' => true,
+        'delete_others_posts' => true,
+        'edit_private_posts' => true,
+        'edit_published_posts' => true,
+        'create_posts' => true,
+      );
+
+      add_role('example_cpt_role', 'Example CPT', $capabilities);
+    }
+
+
+    /**
+     * Removes the role 'example_cpt_role'
+     */
+    public function cb_remove_role()
+    {
+      remove_role('example_cpt_role');
     }
   }
 
