@@ -62,6 +62,7 @@ class Example_CPT
         'not_found_in_trash' => __('No Example CPTs found in Trash', 'example-cpt'),
       ),
       'public' => true,
+      'show_in_rest' => true,
       'has_archive' => true,
       'rewrite' => array(
         'slug' => 'example-cpt'
