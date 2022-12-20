@@ -16,14 +16,14 @@ if (!class_exists('cb_example_cpt')) {
 
     function __construct()
     {
-      add_action('init', array($this, 'register_example_post_type'));
+      add_action('init', array($this, 'cb_register_example_post_type'));
     }
 
     /**
      * We're creating a new post type called "Example CPT" 
      * and registering it with WordPress
      */
-    public function register_example_post_type()
+    public function cb_register_example_post_type()
     {
       // Arguments need it for register the Custom Post Type
       $example_post_type_args = array(
