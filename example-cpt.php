@@ -6,7 +6,7 @@ Description: A plugin that registers a Custom Post Type and exposes it through t
 Version: 1.0
 Author: Carlos Bonilla
 Author URI: https://www.isboli.com/
-Text Domain: cb-example-cpt
+Text Domain: example-cpt
 */
 
 defined('ABSPATH') or die('Nope, Sorry not here.');
@@ -47,18 +47,18 @@ class Example_CPT
     $example_post_type_args = array(
       'label' => 'Example CPT',
       'labels' => array(
-        'name'               => __('Example CPTs', 'cb-example-cpt'),
-        'singular_name'      => __('Example CPT', 'cb-example-cpt'),
-        'add_new'            => __('Add New', 'cb-example-cpt'),
-        'add_new_item'       => __('Add New Example CPT', 'cb-example-cpt'),
-        'edit'               => __('Edit', 'cb-example-cpt'),
-        'edit_item'          => __('Edit Example CPT', 'cb-example-cpt'),
-        'new_item'           => __('New Example CPT', 'cb-example-cpt'),
-        'view'               => __('View Example CPT', 'cb-example-cpt'),
-        'view_item'          => __('View Example CPT', 'cb-example-cpt'),
-        'search_items'       => __('Search Example CPT', 'cb-example-cpt'),
-        'not_found'          => __('No Example CPTs found', 'cb-example-cpt'),
-        'not_found_in_trash' => __('No Example CPTs found in Trash', 'cb-example-cpt'),
+        'name'               => __('Example CPTs', 'example-cpt'),
+        'singular_name'      => __('Example CPT', 'example-cpt'),
+        'add_new'            => __('Add New', 'example-cpt'),
+        'add_new_item'       => __('Add New Example CPT', 'example-cpt'),
+        'edit'               => __('Edit', 'example-cpt'),
+        'edit_item'          => __('Edit Example CPT', 'example-cpt'),
+        'new_item'           => __('New Example CPT', 'example-cpt'),
+        'view'               => __('View Example CPT', 'example-cpt'),
+        'view_item'          => __('View Example CPT', 'example-cpt'),
+        'search_items'       => __('Search Example CPT', 'example-cpt'),
+        'not_found'          => __('No Example CPTs found', 'example-cpt'),
+        'not_found_in_trash' => __('No Example CPTs found in Trash', 'example-cpt'),
       ),
       'public' => true,
       'has_archive' => true,
