@@ -11,22 +11,22 @@ Text Domain: cb-example-cpt
 
 defined('ABSPATH') or die('Nope, Sorry, Not here.');
 
-class CB_Example_CPT
+class Example_CPT
 {
 
   function __construct()
   {
-    register_activation_hook(__FILE__, array($this, 'cb_create_role'));
-    register_deactivation_hook(__FILE__, array($this, 'cb_remove_role'));
-    add_action('init', array($this, 'cb_register_example_post_type'));
-    add_action('admin_init', array($this, 'cb_add_role_capabilities'), 999);
+    register_activation_hook(__FILE__, array($this, 'create_role'));
+    register_deactivation_hook(__FILE__, array($this, 'remove_role'));
+    add_action('init', array($this, 'register_example_post_type'));
+    add_action('admin_init', array($this, 'add_role_capabilities'), 999);
   }
 
   /**
    * Create a new post type called "Example CPT" 
    * and register it with WordPress
    */
-  public function cb_register_example_post_type()
+  public function register_example_post_type()
   {
     // Arguments need it for register the Custom Post Type
     $example_post_type_args = array(
@@ -59,7 +59,7 @@ class CB_Example_CPT
    * Creates new role called "Example CPT" with the ability to create, 
    * edit, and delete Example Custom Posts
    */
-  public function cb_create_role()
+  public function create_role()
   {
     $capabilities = array(
       'edit_post' => true,
@@ -86,7 +86,7 @@ class CB_Example_CPT
   /**
    * Removes the role 'example_cpt_role'
    */
-  public function cb_remove_role()
+  public function remove_role()
   {
     remove_role('example_cpt_role');
   }
@@ -94,7 +94,7 @@ class CB_Example_CPT
   /**
    * Adds the capabilities to the role
    */
-  public function cb_add_role_capabilities()
+  public function add_role_capabilities()
   {
     $roles = array('example_cpt_role', 'administrator');
 
@@ -115,6 +115,6 @@ class CB_Example_CPT
   }
 }
 
-if (class_exists('cb_example_cpt')) {
-  $example_custom_post_type = new cb_example_cpt();
+if (class_exists('example_cpt')) {
+  $example_custom_post_type = new example_cpt();
 }
