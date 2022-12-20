@@ -19,6 +19,7 @@ class Example_CPT
     add_action('init', array($this, 'register_example_post_type'));
     add_action('admin_init', array($this, 'add_role_capabilities'), 999);
     add_action('add_meta_boxes', array($this, 'create_meta_box'));
+    add_action('save_post', array($this, 'save_meta_box'));
   }
 
   /**
@@ -164,6 +165,20 @@ class Example_CPT
     </label>
     <input type=" text" id="example_meta_field" name="example_meta_field" value="<?php echo esc_attr($value) ?>">
   <?php
+  }
+
+  /**
+   * Capture the Extra Meta field and stores the value on the datadase
+   */
+  function save_meta_box($post_id)
+  {
+    if (!isset($_POST['example_meta_field'])) {
+      return $post_id;
+    }
+
+    $example_meta_data_value = sanitize_text_field($_POST['example_meta_field']);
+
+    update_post_meta($post_id, '_example_meta', $example_meta_data_value);
   }
 }
 
