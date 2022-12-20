@@ -26,7 +26,7 @@ class Example_CPT
   function activate()
   {
     $this->create_role();
-    flush_rewrite_rules();
+    $this->register_example_meta_field();
   }
 
   /**
@@ -35,7 +35,6 @@ class Example_CPT
   function deactivate()
   {
     $this->remove_role();
-    flush_rewrite_rules();
   }
 
   /**
@@ -127,6 +126,21 @@ class Example_CPT
       $role->add_cap('delete_private_example_cpts');
       $role->add_cap('delete_published_example_cpts');
     }
+  }
+
+  /**
+   * Register the Example Meta Custom Field
+   */
+  function register_example_meta_field()
+  {
+    $example_meta_field_args = array(
+      'type' => 'string',
+      'description' => 'A Example meta field for Example CPT',
+      'default' => '',
+      'show_in_rest' => true
+    );
+
+    register_post_meta('example-cpt', '_example_meta', $example_meta_field_args);
   }
 }
 
