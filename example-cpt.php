@@ -20,12 +20,18 @@ class Example_CPT
     add_action('admin_init', array($this, 'add_role_capabilities'), 999);
   }
 
+  /**
+   * Anything that need to be run when the plugin is Activated
+   */
   function activate()
   {
     $this->create_role();
     flush_rewrite_rules();
   }
 
+  /**
+   * Anything that need to be run when the plugin is Deactivated
+   */
   function deactivate()
   {
     $this->remove_role();
@@ -33,8 +39,7 @@ class Example_CPT
   }
 
   /**
-   * Create a new post type called "Example CPT" 
-   * and register it with WordPress
+   * Create a new post type called "Example CPT" and register it with WordPress
    */
   function register_example_post_type()
   {
