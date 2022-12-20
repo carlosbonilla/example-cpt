@@ -8,9 +8,39 @@ Author: Carlos Bonilla
 Author URI: https://www.isboli.com/
 */
 
-class cb_example_cpt
+if ( ! class_exists( 'cb_example_cpt' ) ) 
 {
+  class cb_example_cpt
+  {
+    function __construct()
+    {
+      add_action( 'init', array( $this, 'register_example_post_type' ) );
+    }
 
+    public function register_example_post_type()
+    {
+      $example_post_type_args = array(
+                                  'label' => 'Example CPT',
+                                  'labels' => array(
+                                    'name' => __( 'Example CPT' ),
+                                    'singular_name' => __( 'Example CPT' ),
+                                    'add_new'=>'Add Example CPT',
+                                    'add_new_item'=>'Add New Example CPT',
+                                    'edit_item'=>'Edit Example CPT',
+                                    'new_item'=>'New Example CPT',
+                                    'view_item'=>'View Example CPT',
+                                    'search_items'=>'Search Example CPT',
+                                  ),
+                                  'public' => true,
+                                  'has_archive' => false,
+                                  'rewrite' => array(
+                                      'slug' => 'example-cpt'
+                                  ),
+                                );
+
+      register_post_type( 'example-cpt', $example_post_type_args );
+    }
+  }
+
+  new cb_example_cpt();
 }
-
-new cb_example_cpt();
