@@ -14,18 +14,19 @@ defined('ABSPATH') or die('Nope, Sorry not here.');
 class Example_CPT
 {
 
-  function __construct()
+  public function __construct()
   {
     add_action('init', array($this, 'register_example_post_type'));
     add_action('admin_init', array($this, 'add_role_capabilities'), 999);
     add_action('add_meta_boxes', array($this, 'create_meta_box'));
     add_action('save_post', array($this, 'save_meta_box'));
+    add_action('rest_api_init', array($this, 'create_rest_field_example_meta'));
   }
 
   /**
    * Anything that need to be run when the plugin is Activated
    */
-  function activate()
+  public function activate()
   {
     $this->create_role();
     $this->register_example_meta_field();
@@ -34,7 +35,7 @@ class Example_CPT
   /**
    * Anything that need to be run when the plugin is Deactivated
    */
-  function deactivate()
+  public function deactivate()
   {
     $this->remove_role();
   }
@@ -42,7 +43,7 @@ class Example_CPT
   /**
    * Create a new post type called "Example CPT" and register it with WordPress
    */
-  function register_example_post_type()
+  public function register_example_post_type()
   {
     // Arguments need it for register the Custom Post Type
     $example_post_type_args = array(
@@ -76,7 +77,7 @@ class Example_CPT
    * Creates new role called "Example CPT" with the ability to create, 
    * edit, and delete Example Custom Posts
    */
-  function create_role()
+  public function create_role()
   {
     $capabilities = array(
       'edit_post' => true,
@@ -103,7 +104,7 @@ class Example_CPT
   /**
    * Removes the role 'example_cpt_role'
    */
-  function remove_role()
+  public function remove_role()
   {
     remove_role('example_cpt_role');
   }
@@ -111,7 +112,7 @@ class Example_CPT
   /**
    * Adds the capabilities to the role
    */
-  function add_role_capabilities()
+  public function add_role_capabilities()
   {
     $roles = array('example_cpt_role', 'administrator');
 
@@ -134,7 +135,7 @@ class Example_CPT
   /**
    * Register the Example Meta Custom Field
    */
-  function register_example_meta_field()
+  public function register_example_meta_field()
   {
     $example_meta_field_args = array(
       'type' => 'string',
@@ -149,7 +150,7 @@ class Example_CPT
   /**
    * Creates the meta box on the edit page for Example CPT
    */
-  function create_meta_box()
+  public function create_meta_box()
   {
     add_meta_box('example_meta_field_box', 'Example Meta', array($this, 'meta_box_html'), array('example-cpt'));
   }
@@ -157,7 +158,7 @@ class Example_CPT
   /**
    * The HTML content fof the Meta Box
    */
-  function meta_box_html($post)
+  public function meta_box_html($post)
   {
     $value = get_post_meta($post->ID, '_example_meta', true);
 ?>
@@ -171,7 +172,7 @@ class Example_CPT
   /**
    * Capture the Extra Meta field and stores the value on the datadase
    */
-  function save_meta_box($post_id)
+  public function save_meta_box($post_id)
   {
     if (!isset($_POST['example_meta_field'])) {
       return $post_id;
@@ -180,6 +181,28 @@ class Example_CPT
     $example_meta_data_value = sanitize_text_field($_POST['example_meta_field']);
 
     update_post_meta($post_id, '_example_meta', $example_meta_data_value);
+  }
+
+  /**
+   * Register new rest field for the Example CPT meta data
+   */
+  public function create_rest_field_example_meta()
+  {
+
+    $field_args = array(
+      'get_callback' => array($this, 'get_example_meta')
+    );
+
+    register_rest_field('example-cpt', '_example_meta', $field_args);
+  }
+
+  /**
+   * Get Example CPT Metadata
+   */
+  public function get_example_meta($post)
+  {
+    $post_id = $post['id'];
+    return get_post_meta($post_id, '_example_meta', true);
   }
 }
 
