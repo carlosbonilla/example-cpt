@@ -18,6 +18,7 @@ class Example_CPT
   {
     add_action('init', array($this, 'register_example_post_type'));
     add_action('admin_init', array($this, 'add_role_capabilities'), 999);
+    add_action('add_meta_boxes', array($this, 'create_meta_box'));
   }
 
   /**
@@ -142,7 +143,31 @@ class Example_CPT
 
     register_post_meta('example-cpt', '_example_meta', $example_meta_field_args);
   }
+
+  /**
+   * Creates the meta box on the edit page for Example CPT
+   */
+  function create_meta_box()
+  {
+    add_meta_box('example_meta_field_box', 'Example Meta', array($this, 'meta_box_html'), array('example-cpt'));
+  }
+
+  /**
+   * The HTML content fof the Meta Box
+   */
+  function meta_box_html($post)
+  {
+    $value = get_post_meta($post->ID, '_example_meta', true);
+?>
+    <label class="screen-reader-text" for=" example_meta_field"">
+      <?php __('Meta Example', 'example-cpt') ?>
+    </label>
+    <input type=" text" id="example_meta_field" name="example_meta_field" value="<?php echo esc_attr($value) ?>">
+  <?php
+  }
 }
+
+
 
 if (class_exists('Example_CPT')) {
   $example_custom_post_type = new Example_CPT();
