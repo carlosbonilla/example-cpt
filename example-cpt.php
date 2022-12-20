@@ -19,6 +19,7 @@ if (!class_exists('cb_example_cpt')) {
       register_activation_hook(__FILE__, array($this, 'cb_create_role'));
       register_deactivation_hook(__FILE__, array($this, 'cb_remove_role'));
       add_action('init', array($this, 'cb_register_example_post_type'));
+      add_action('admin_init', array($this, 'cb_add_role_capabilities'), 999);
     }
 
     /**
@@ -88,6 +89,29 @@ if (!class_exists('cb_example_cpt')) {
     public function cb_remove_role()
     {
       remove_role('example_cpt_role');
+    }
+
+    /**
+     * Adds the capabilities to the role
+     */
+    public function cb_add_role_capabilities()
+    {
+      $roles = array('example_cpt_role', 'administrator');
+
+      foreach ($roles as $each_role) {
+        $role = get_role($each_role);
+        $role->add_cap('read');
+        $role->add_cap('read_example_cpts');
+        $role->add_cap('read_private_example_cpts');
+        $role->add_cap('edit_example_cpts');
+        $role->add_cap('edit_example_cpts');
+        $role->add_cap('edit_others_example_cpts');
+        $role->add_cap('edit_published_example_cpts');
+        $role->add_cap('publish_example_cpts');
+        $role->add_cap('delete_others_example_cpts');
+        $role->add_cap('delete_private_example_cpts');
+        $role->add_cap('delete_published_example_cpts');
+      }
     }
   }
 
